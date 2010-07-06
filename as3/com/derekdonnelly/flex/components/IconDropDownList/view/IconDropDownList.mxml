@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:DropDownList xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				skinClass="com.derekdonnelly.flex.components.IconDropDownList.view.skins.IconDropDownListSkin" 
+				width="80" height="30"
+				creationComplete="_initHandler(event)" >
+	<fx:Script>
+		<![CDATA[
+			import flash.events.*;
+			
+			import com.derekdonnelly.flex.components.IconDropDownList.events.IconDropDownListEvent;
+			import com.derekdonnelly.flex.components.IconDropDownList.IconDropDownListContext;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.IVisualElementContainer;
+			
+			import org.robotlegs.core.IContext;
+			import org.robotlegs.core.IInjector;
+			import org.robotlegs.utilities.modular.core.IModule;
+			import org.robotlegs.utilities.modular.core.IModuleContext;
+			
+			import spark.events.IndexChangeEvent;
+			
+			[Event(name="IconDropDownListEvent.CLOSE", type="com.derekdonnelly.flex.components.IconDropDownList.events.IconDropDownListEvent")]
+			
+			private var _context:IModuleContext;
+			
+			[Bindable(event="propertyChange", type="mx.events.PropertyChangeEvent")]
+			public var active:Boolean = false;
+			
+			private var _showSelectedIcon:Boolean = false;
+			
+			private function _initHandler(e:Event):void
+			{
+			}
+			
+			public function open():Boolean
+			{
+				visible = true;
+				return true;
+			}
+			
+			public function close():void
+			{
+				visible = false;
+				dispatchEvent(new IconDropDownListEvent(IconDropDownListEvent.CLOSE));
+			}
+
+			[Inject]
+			public function set parentInjector(v:IInjector):void
+			{
+				_context = new IconDropDownListContext(this, v);
+			}
+			
+			public function dispose():void
+			{
+				if(parent && parent.contains(this))
+					IVisualElementContainer(parent).removeElement(this);
+				
+				_context.dispose();
+				_context = null;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+</s:DropDownList>
